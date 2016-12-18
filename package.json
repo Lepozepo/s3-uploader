@@ -4,8 +4,9 @@
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
   "main": "index.js",
   "scripts": {
-    "prepublish": "node_modules/coffee-script/bin/coffee --no-header --compile --output lib/ src/",
-    "test": "node_modules/coffeelint/bin/coffeelint -f coffeelint.json ./src"
+    "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d lib && rm -rf jsFromCoffee",
+    "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
+    "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib"
   },
   "keywords": [
     "s3",
@@ -16,6 +17,8 @@
   "author": "lepozepo",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-env": "^1.1.4",
     "coffee-script": "^1.12.2",
     "coffeelint": "^1.16.0"
   },
