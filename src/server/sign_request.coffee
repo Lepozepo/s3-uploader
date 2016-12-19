@@ -16,59 +16,63 @@ import isEmpty from "lodash/isEmpty"
  * @param {String} ops.region The region that your Amazon AWS S3 bucket belongs to
  * @return {Object}               Returns the signature object to use for uploading
 ###
-export default ({expiration = 1800000, path = "", file_type, file_name, file_size, acl = "public-read", bucket, region}) ->
-	expiration = new Date Date.now() + ops.expiration
-	expiration = expiration.toISOString()
+class S3Authorizer
+	constructor: ({@key, @expiration = 1800000, @path = "", @acl = "public-read", @bucket, @region = "us-east-1"}) ->
 
-	if isEmpty path
-		key = "#{file_name}"
-	else
-		key = "#{path}/#{file_name}"
+	authorize: ({expiration = @expiration, path = @path, file_type, file_name, file_size, acl = @acl, bucket = @bucket, region = @region}) ->
+		expiration_date = new Date Date.now() + expiration
+		expiration_date = expiration.toISOString()
 
-	meta_uuid = uuid()
-	meta_date = "#{moment().format('YYYYMMDD')}T000000Z"
-	# Left Off Here
-	meta_credential = "#{S3.config.key}/#{moment().format('YYYYMMDD')}/#{ops.region}/s3/aws4_request"
-	policy =
-		"expiration":expiration
-		"conditions":[
-			["content-length-range",0,ops.file_size]
-			{"key":key}
-			{"bucket":ops.bucket}
-			{"Content-Type":ops.file_type}
-			{"acl":ops.acl}
-			# {"x-amz-server-side-encryption": "AES256"}
-			{"x-amz-algorithm": "AWS4-HMAC-SHA256"}
-			{"x-amz-credential": meta_credential}
-			{"x-amz-date": meta_date }
-			{"x-amz-meta-uuid": meta_uuid}
-		]
+		if isEmpty path
+			key = "#{file_name}"
+		else
+			key = "#{path}/#{file_name}"
 
-	# Encode the policy
-	policy = new Buffer(JSON.stringify(policy), "utf-8").toString("base64")
+		meta_uuid = uuid()
+		meta_date = "#{moment().format('YYYYMMDD')}T000000Z"
+		meta_credential = "#{@key}/#{moment().format('YYYYMMDD')}/#{region}/s3/aws4_request"
+		policy =
+			"expiration":expiration_date
+			"conditions":[
+				["content-length-range",0,file_size]
+				{"key":@key}
+				{"bucket":bucket}
+				{"Content-Type":file_type}
+				{"acl":acl}
+				# {"x-amz-server-side-encryption": "AES256"}
+				{"x-amz-algorithm": "AWS4-HMAC-SHA256"}
+				{"x-amz-credential": meta_credential}
+				{"x-amz-date": meta_date }
+				{"x-amz-meta-uuid": meta_uuid}
+			]
 
-	# Sign the policy
-	signature = calculate_signature policy, ops.region
+		# Encode the policy
+		policy = new Buffer(JSON.stringify(policy), "utf-8").toString("base64")
 
-	# Identify post_url
-	if ops.region is "us-east-1" or ops.region is "us-standard"
-		post_url = "https://s3.amazonaws.com/#{ops.bucket}"
-	else
-		post_url = "https://s3-#{ops.region}.amazonaws.com/#{ops.bucket}"
+		# Sign the policy
+		signature = calculate_signature policy, region
 
-	# Return results
-	policy:policy
-	signature:signature
-	access_key:S3.config.key
-	post_url:post_url
-	url:"#{post_url}/#{key}".replace("https://","http://")
-	secure_url:"#{post_url}/#{key}"
-	relative_url:"/#{key}"
-	bucket:ops.bucket
-	acl:ops.acl
-	key:key
-	file_type:ops.file_type
-	file_name:ops.file_name
-	meta_uuid:meta_uuid
-	meta_date:meta_date
-	meta_credential:meta_credential
+		# Identify post_url
+		if region is "us-standard" # This region does not exist but I can see how people can be confused about it
+			region = "us-east-1"
+
+		post_url = "https://s3-#{region}.amazonaws.com/#{bucket}"
+
+		# Return authorization object
+		policy:policy
+		signature:signature
+		access_key:S3.config.key
+		post_url:post_url
+		url:"#{post_url}/#{key}".replace("https://","http://")
+		secure_url:"#{post_url}/#{key}"
+		relative_url:"/#{key}"
+		bucket:ops.bucket
+		acl:ops.acl
+		key:key
+		file_type:ops.file_type
+		file_name:ops.file_name
+		meta_uuid:meta_uuid
+		meta_date:meta_date
+		meta_credential:meta_credential
+
+
