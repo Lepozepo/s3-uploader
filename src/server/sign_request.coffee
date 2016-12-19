@@ -16,8 +16,8 @@ import isEmpty from "lodash/isEmpty"
  * @param {String} ops.region The region that your Amazon AWS S3 bucket belongs to
  * @return {Object}               Returns the signature object to use for uploading
 ###
-class S3Authorizer
-	constructor: ({@key, @expiration = 1800000, @path = "", @acl = "public-read", @bucket, @region = "us-east-1"}) ->
+class Authorizer
+	constructor: ({@secret, @key, @bucket, @region = "us-east-1", @path = "", @expiration = 1800000, @acl = "public-read"}) ->
 
 	authorize: ({expiration = @expiration, path = @path, file_type, file_name, file_size, acl = @acl, bucket = @bucket, region = @region}) ->
 		expiration_date = new Date Date.now() + expiration
@@ -35,7 +35,7 @@ class S3Authorizer
 			"expiration":expiration_date
 			"conditions":[
 				["content-length-range",0,file_size]
-				{"key":@key}
+				{"key":key}
 				{"bucket":bucket}
 				{"Content-Type":file_type}
 				{"acl":acl}
@@ -50,7 +50,10 @@ class S3Authorizer
 		policy = new Buffer(JSON.stringify(policy), "utf-8").toString("base64")
 
 		# Sign the policy
-		signature = calculate_signature policy, region
+		signature = calculate_signature
+			policy:policy
+			region:region
+			secret:@secret
 
 		# Identify post_url
 		if region is "us-standard" # This region does not exist but I can see how people can be confused about it
@@ -61,7 +64,7 @@ class S3Authorizer
 		# Return authorization object
 		policy:policy
 		signature:signature
-		access_key:S3.config.key
+		access_key:@key
 		post_url:post_url
 		url:"#{post_url}/#{key}".replace("https://","http://")
 		secure_url:"#{post_url}/#{key}"
