@@ -6,7 +6,8 @@
   "scripts": {
     "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d lib && rm -rf jsFromCoffee",
     "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
-    "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib"
+    "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib",
+    "meteor-example": "cd examples/meteor && meteor"
   },
   "keywords": [
     "s3",

@@ -20,6 +20,15 @@ class Authorizer
 	constructor: ({@secret, @key, @bucket, @region = "us-east-1", @path = "", @expiration = 1800000, @acl = "public-read"}) ->
 
 	authorize: ({expiration = @expiration, path = @path, file_type, file_name, file_size, acl = @acl, bucket = @bucket, region = @region}) ->
+		if isEmpty(file_name)
+			throw new Error "file_name cannot be empty"
+
+		if isEmpty(file_type)
+			throw new Error "file_type cannot be empty"
+
+		if isFinite(file_size) and file_size <= 0
+			throw new Error "file_size cannot be less than or equal to 0"
+
 		expiration_date = new Date Date.now() + expiration
 		expiration_date = expiration.toISOString()
 
@@ -69,13 +78,15 @@ class Authorizer
 		url:"#{post_url}/#{key}".replace("https://","http://")
 		secure_url:"#{post_url}/#{key}"
 		relative_url:"/#{key}"
-		bucket:ops.bucket
-		acl:ops.acl
+		bucket:bucket
+		acl:acl
 		key:key
-		file_type:ops.file_type
-		file_name:ops.file_name
+		file_type:file_type
+		file_name:file_name
+		file_size:file_size
 		meta_uuid:meta_uuid
 		meta_date:meta_date
 		meta_credential:meta_credential
 
+export default Authorizer
 
