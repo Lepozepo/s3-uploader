@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty"
 import noop from "lodash/noop"
 import extend from "lodash/extend"
 
-export default (file, {encoding = "", file_name = true, authorizer, path, acl, bucket, region, expiration, upload_event = noop}) ->
+export default (file, {_id = uuid(), encoding = "", file_name = true, authorizer, path, acl, bucket, region, expiration, upload_event = noop}) ->
 	# Check required vars
 	if not authorizer
 		throw new Error "authorizer is required"
@@ -33,6 +33,7 @@ export default (file, {encoding = "", file_name = true, authorizer, path, acl, b
 		file_name = file.name
 
 	file_data =
+		_id:_id
 		file:
 			name:file_name
 			type:file.type
