@@ -2,7 +2,7 @@
   "name": "s3-uploader",
   "version": "1.0.0",
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d lib && rm -rf jsFromCoffee",
     "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
