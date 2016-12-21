@@ -1,18 +1,27 @@
 import { Template } from 'meteor/templating';
 import './main.html';
-import { uploadFiles, removeFiles } from 's3-uploader';
+import { upload_files, remove_files } from 's3-uploader';
+
+var progress = new ReactiveVar(0);
+
+Template.info.helpers({
+	'progress': function() {
+		progress.get();
+	},
+})
 
 Template.info.events({
 	'click .upload': function(event, instance) {
-		uploadFiles({
+		upload_files(instance.$("input.file_bag")[0].files, {
 			authorizer: Meteor.call.bind(this, "authorize_upload"),
-			files:instance.$("input.file_bag")[0].files
-			upload_event: function(err, res) {},
+			upload_event: function(err, res) {
+				progress.set(res.percent_uploaded);
+			},
 			// encoding: "base64",
 		});
 	},
 	'click .remove': function(event, instance) {
-		removeFiles({
+		remove_files({
 			urls: ["relative_url_1", "relative_url_2"],
 			removeComplete: function(err, res) {},
 		})
