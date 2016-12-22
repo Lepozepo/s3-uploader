@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Authorizer } from 's3-uploader';
+import { Authorizer } from 's3up';
 
 var authorizer = new Authorizer({
 	key: 'key',

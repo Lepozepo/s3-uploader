@@ -1,5 +1,5 @@
 {
-  "name": "s3-uploader",
+  "name": "s3up",
   "version": "1.0.0",
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
   "main": "./lib/index.js",
