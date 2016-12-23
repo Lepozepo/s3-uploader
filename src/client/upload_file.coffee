@@ -1,4 +1,4 @@
-import b64toBlob from "./b64toBlob.coffee"
+import b64toBlob from "./b64toBlob"
 import uuid from "uuid/v4"
 
 import isString from "lodash/isString"

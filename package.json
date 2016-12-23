@@ -1,10 +1,12 @@
 {
   "name": "s3up",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d lib && rm -rf jsFromCoffee",
+    "start": "node lib/index.js",
+    "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d lib",
+    "postpublish": "rm -rf jsFromCoffee && rm -rf lib",
     "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
     "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib",
     "meteor-example": "cd examples/meteor && meteor"

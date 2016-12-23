@@ -1,4 +1,4 @@
-import calculate_signature from "./calculate_signature.coffee"
+import calculate_signature from "./calculate_signature"
 import uuid from "uuid/v4"
 import moment from "moment"
 import isEmpty from "lodash/isEmpty"

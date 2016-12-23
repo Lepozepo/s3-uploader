@@ -1,4 +1,4 @@
-import upload_file from './upload_file.coffee'
+import upload_file from './upload_file'
 import times from 'lodash/times'
 import extend from "lodash/extend"
 
