@@ -30,7 +30,7 @@ class Authorizer
 			throw new Error "file_size cannot be less than or equal to 0"
 
 		expiration_date = new Date Date.now() + expiration
-		expiration_date = expiration.toISOString()
+		expiration_date = expiration_date.toISOString()
 
 		if isEmpty path
 			key = "#{file_name}"

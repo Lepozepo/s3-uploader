@@ -27,7 +27,7 @@ export default (file, {_id = uuid(), encoding = "", file_name = true, authorizer
 			file_name = "#{uuid()}.#{extension}"
 
 		when "function"
-			file_name = upload_name(file)
+			file_name = file_name(file)
 
 	if isEmpty file_name
 		file_name = file.name
