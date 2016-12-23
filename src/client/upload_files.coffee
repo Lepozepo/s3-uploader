@@ -15,7 +15,9 @@ export default (files, ops) ->
 		upload_file files.item(n), extend ops,
 			upload_event: (err, res) ->
 				if err
-					throw err
+					upload_event?(err, extend(res, {total_percent_uploaded}))
+					total_percent_uploaded = 0
+					return
 
 				total_percent_uploaded += Math.floor ((res.loaded / upload_size) * 100)
-				upload_event?(extend(res, {total_percent_uploaded}))
+				upload_event?(null, extend(res, {total_percent_uploaded}))
