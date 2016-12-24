@@ -1,6 +1,9 @@
-import upload_file from './upload_file'
-import times from 'lodash/times'
+import upload_file from "./upload_file"
+import times from "lodash/times"
 import extend from "lodash/extend"
+import findIndex from "lodash/findIndex"
+import reduce from "lodash/reduce"
+import every from "lodash/every"
 
 export default (files, ops) ->
 	number_of_files = files.length
@@ -8,6 +11,7 @@ export default (files, ops) ->
 	total_percent_uploaded = 0
 
 	upload_size = 0
+	files_data = []
 	times number_of_files, (n) ->
 		upload_size += files.item(n)?.size or 0
 
@@ -19,7 +23,21 @@ export default (files, ops) ->
 					total_percent_uploaded = 0
 					return
 
+				if res.status is "authorizing"
+					files_data.push(res)
+
 				if res.status is "uploading"
-					total_percent_uploaded += Math.floor ((res.loaded / upload_size) * 100)
+					file_index = findIndex files_data, _id: res._id
+					extend files[file_index], res
+
+					total_percent_uploaded = reduce files_data, (total, file) ->
+						total + Math.floor((file.loaded / file.total) * (file.total / upload_size) * 100)
+					, 0
+
+				all_files_complete = every files_data,
+					status: "complete"
+
+				if all_files_complete
+					total_percent_uploaded = 100
 
 				upload_event?(null, extend(res, {total_percent_uploaded}))
