@@ -19,8 +19,7 @@ export default (files, ops) ->
 					total_percent_uploaded = 0
 					return
 
-				total_percent_uploaded += Math.floor ((res.loaded / upload_size) * 100)
-				if total_percent_uploaded >= 100
-					total_percent_uploaded = 100
+				if res.status is "uploading"
+					total_percent_uploaded += Math.floor ((res.loaded / upload_size) * 100)
 
 				upload_event?(null, extend(res, {total_percent_uploaded}))
