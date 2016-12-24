@@ -10,10 +10,7 @@ export default (files, ops) ->
 	upload_event = ops.upload_event
 	total_percent_uploaded = 0
 
-	upload_size = 0
 	files_data = []
-	times number_of_files, (n) ->
-		upload_size += files.item(n)?.size or 0
 
 	times number_of_files, (n) ->
 		upload_file files.item(n), extend ops,
@@ -30,9 +27,13 @@ export default (files, ops) ->
 					file_index = findIndex files_data, _id: res._id
 					extend files[file_index], res
 
+					upload_size = reduce files_data, (total, file) ->
+						total + file.total
+					,0
+
 					total_percent_uploaded = reduce files_data, (total, file) ->
 						total + Math.floor((file.loaded / file.total) * (file.total / upload_size) * 100)
-					, 0
+					,0
 
 				all_files_complete = every files_data,
 					status: "complete"

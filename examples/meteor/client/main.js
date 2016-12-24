@@ -6,7 +6,7 @@ var progress = new ReactiveVar(0);
 
 Template.info.helpers({
 	'progress': function() {
-		progress.get();
+		return progress.get();
 	},
 })
 
