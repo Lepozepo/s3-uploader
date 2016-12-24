@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { Authorizer } from 's3up';
+import { authorizer as Authorizer } from 's3up';
 
 var authorizer = new Authorizer({
 	key: 'key',
 	secret: 'secret',
 	// All other defaults go here
+	bucket:"s3meteor",
+	region:"us-west-2",
 });
 
 Meteor.methods({

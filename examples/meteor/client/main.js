@@ -15,6 +15,9 @@ Template.info.events({
 		upload_files(instance.$("input.file_bag")[0].files, {
 			authorizer: Meteor.call.bind(this, "authorize_upload"),
 			upload_event: function(err, res) {
+				console.log({err, status: res.status, total_uploaded: res.total_percent_uploaded});
+				if (err) throw err;
+
 				progress.set(res.total_percent_uploaded);
 			},
 			// encoding: "base64",
