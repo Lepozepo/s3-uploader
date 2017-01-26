@@ -5,7 +5,6 @@ import isEmpty from "lodash/isEmpty"
 import S3 from "aws-sdk/clients/s3"
 import Future from "fibers/future"
 
-console.log Future
 ###*
  * Creates an object for the client to consume as a signature to authorize a file upload into Amazon S3
  * @param {Object} ops Object describing how to create the signature
