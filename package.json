@@ -9,7 +9,8 @@
     "postpublish": "rm -rf jsFromCoffee && rm -rf lib",
     "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
     "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib",
-    "meteor-example": "cd examples/meteor && meteor"
+    "meteor-example": "cd examples/meteor && meteor",
+    "reinstall-examples": "npm pack && cd examples/meteor && rm -rf node_modules/s3up && meteor npm i && cd ../../ && npm run postpublish"
   },
   "keywords": [
     "s3",
@@ -18,7 +19,7 @@
     "meteor"
   ],
   "author": "lepozepo",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-preset-env": "^1.1.4",
@@ -26,7 +27,9 @@
     "coffeelint": "^1.16.0"
   },
   "dependencies": {
+    "aws-sdk": "2.7.22",
     "crypto-js": "^3.1.9-1",
+    "fibers": "^1.0.15",
     "lodash": "^4.17.2",
     "moment": "^2.17.1",
     "uuid": "^3.0.1"

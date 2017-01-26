@@ -2,7 +2,10 @@ import calculate_signature from "./calculate_signature"
 import uuid from "uuid/v4"
 import moment from "moment"
 import isEmpty from "lodash/isEmpty"
+import S3 from "aws-sdk/clients/s3"
+import Future from "fibers/future"
 
+console.log Future
 ###*
  * Creates an object for the client to consume as a signature to authorize a file upload into Amazon S3
  * @param {Object} ops Object describing how to create the signature
@@ -18,8 +21,13 @@ import isEmpty from "lodash/isEmpty"
 ###
 class Authorizer
 	constructor: ({@secret, @key, @bucket, @region = "us-east-1", @path = "", @expiration = 1800000, @acl = "public-read"}) ->
+		@SDK = new S3
+			secretAccessKey:@secret
+			accessKeyId:@key
+			bucket:@bucket
+			region:@region
 
-	authorize: ({expiration = @expiration, path = @path, file_type, file_name, file_size, acl = @acl, bucket = @bucket, region = @region}) ->
+	authorize_upload: ({expiration = @expiration, path = @path, file_type, file_name, file_size, acl = @acl, bucket = @bucket, region = @region}) ->
 		if isEmpty(file_name)
 			throw new Error "file_name cannot be empty"
 
@@ -51,7 +59,7 @@ class Authorizer
 				# {"x-amz-server-side-encryption": "AES256"}
 				{"x-amz-algorithm": "AWS4-HMAC-SHA256"}
 				{"x-amz-credential": meta_credential}
-				{"x-amz-date": meta_date }
+				{"x-amz-date": meta_date}
 				{"x-amz-meta-uuid": meta_uuid}
 			]
 
@@ -87,6 +95,28 @@ class Authorizer
 		meta_uuid:meta_uuid
 		meta_date:meta_date
 		meta_credential:meta_credential
+
+	authorize_delete: ({paths = []}) ->
+		# if not isArray paths
+		# 	paths = [paths]
+
+		paths = paths.map (path) ->
+			Key:path
+
+		delete_params =
+			Bucket:@bucket
+			Delete:
+				Objects:paths
+				# Quiet:true
+
+		delete_promise = @SDK.deleteObjects delete_params
+			.promise()
+
+		future = new Future()
+		resolver = future.resolver()
+		delete_promise.then resolver
+
+		future.wait()
 
 export default Authorizer
 
