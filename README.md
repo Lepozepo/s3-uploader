@@ -1,4 +1,4 @@
 # S3 Uploads
 
-## Powered by [Differential](differential.com)
+## Powered by [Differential](http://www.differential.com)
 
