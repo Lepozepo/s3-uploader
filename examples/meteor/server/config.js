@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { authorizer as Authorizer } from 's3up';
+import { authorizer as Authorizer } from 's3up/server';
 
 var authorizer = new Authorizer({
 	key: 'key',
@@ -12,6 +12,10 @@ var authorizer = new Authorizer({
 Meteor.methods({
 	authorize_upload: function(ops) {
 		this.unblock();
-		return authorizer.authorize(ops);
+		return authorizer.authorize_upload(ops);
+	},
+	authorize_delete: function(ops) {
+		this.unblock();
+		return authorizer.authorize_delete(ops);
 	},
 })

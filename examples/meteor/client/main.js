@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import './main.html';
-import { upload_files } from 's3up';
+import { upload_files, delete_files } from 's3up/client';
 
 var progress = new ReactiveVar(0);
 
@@ -24,10 +24,13 @@ Template.info.events({
 			// encoding: "base64",
 		});
 	},
-	// 'click .remove': function(event, instance) {
-	// 	remove_files({
-	// 		urls: ["relative_url_1", "relative_url_2"],
-	// 		removeComplete: function(err, res) {},
-	// 	})
-	// },
+	'click .delete': function(event, instance) {
+		delete_files({
+			authorizer: Meteor.call.bind(this, "authorize_delete"),
+			paths: ["noExists.jpg"],
+			deleteComplete: function(err, res) {
+				console.log({err, res});
+			},
+		})
+	},
 });
