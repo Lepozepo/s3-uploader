@@ -5,10 +5,5 @@ export default ({authorizer, paths = [], deleteComplete = noop}) ->
 	if not authorizer
 		throw new Error "authorizer is required"
 
-	authorizer
-		paths:paths
-		(error,res) ->
-			console.log {error, res}
-			if error
-				throw error
+	authorizer {paths}, deleteComplete
 

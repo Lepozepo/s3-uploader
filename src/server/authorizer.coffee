@@ -2,6 +2,7 @@ import calculate_signature from "./calculate_signature"
 import uuid from "uuid/v4"
 import moment from "moment"
 import isEmpty from "lodash/isEmpty"
+import isArray from "lodash/isArray"
 import S3 from "aws-sdk/clients/s3"
 import Future from "fibers/future"
 
@@ -96,8 +97,8 @@ class Authorizer
 		meta_credential:meta_credential
 
 	authorize_delete: ({paths = []}) ->
-		# if not isArray paths
-		# 	paths = [paths]
+		if not isArray paths
+			paths = [paths]
 
 		paths = paths.map (path) ->
 			Key:path
@@ -106,14 +107,16 @@ class Authorizer
 			Bucket:@bucket
 			Delete:
 				Objects:paths
-				# Quiet:true
 
 		delete_promise = @SDK.deleteObjects delete_params
 			.promise()
 
 		future = new Future()
-		resolver = future.resolver()
-		delete_promise.then resolver
+		delete_promise.then (err, res) ->
+			if res?.Errors.length > 0
+				future.return new Error(res.Errors), null
+			else
+				future.return err, res
 
 		future.wait()
 
