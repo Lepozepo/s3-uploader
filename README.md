@@ -16,6 +16,8 @@ Star my code in github or atmosphere if you like my code or shoot me a dollar or
 ``` sh
 $ npm i --save s3up
 ```
+## After authorization, the upload goes directly from the client to S3
+<img src="https://cdn.rawgit.com/CulturalMe/meteor-slingshot/master/docs/slingshot.png"/>
 
 ## How to use
 
