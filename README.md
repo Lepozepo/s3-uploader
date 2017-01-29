@@ -14,7 +14,7 @@ Star my code in github or atmosphere if you like my code or shoot me a dollar or
 ## Installation
 
 ``` sh
-$ npm i --save s3-uploader
+$ npm i --save s3up
 ```
 
 ## How to use
