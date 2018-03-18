@@ -76,7 +76,10 @@ class Authorizer
 		if region is "us-standard" # This region does not exist but I can see how people can be confused about it
 			region = "us-east-1"
 
-		post_url = "https://s3-#{region}.amazonaws.com/#{bucket}"
+		if region is "us-east-1"
+			post_url = "https://s3.amazonaws.com/#{bucket}"
+		else
+			post_url = "https://s3-#{region}.amazonaws.com/#{bucket}"
 
 		# Return authorization object
 		policy:policy
