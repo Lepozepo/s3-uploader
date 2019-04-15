@@ -5,8 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "babel-runtime": "6.18.0",
-    "meteor-node-stubs": "~0.2.0",
+    "babel-runtime": "6.26.0",
+    "meteor-node-stubs": "~0.4.1",
     "s3up": "file:///Users/Air/Documents/Programming/custom_packages/s3-uploader/s3up-1.0.10.tgz"
   }
 }
