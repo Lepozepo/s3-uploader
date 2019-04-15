@@ -1,5 +1,7 @@
 # S3 Uploads
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Lepozepo/s3-uploader.svg)](https://greenkeeper.io/)
+
 ## Sponsored by [Differential](http://www.differential.com)
 
 ### NOTES
