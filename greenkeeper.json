@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "examples/meteor/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
