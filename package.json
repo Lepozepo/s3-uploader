@@ -23,12 +23,12 @@
     "babel-cli": "^6.18.0",
     "babel-preset-env": "^1.1.4",
     "coffee-script": "^1.12.2",
-    "coffeelint": "^1.16.0"
+    "coffeelint": "^2.1.0"
   },
   "dependencies": {
-    "aws-sdk": "2.7.22",
+    "aws-sdk": "2.437.0",
     "crypto-js": "^3.1.9-1",
-    "fibers": "^1.0.15",
+    "fibers": "^3.1.1",
     "lodash": "^4.17.2",
     "moment": "^2.17.1",
     "uuid": "^3.0.1"
