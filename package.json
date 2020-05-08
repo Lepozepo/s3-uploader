@@ -1,6 +1,6 @@
 {
   "name": "s3up",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
   "main": "client/index.js",
   "scripts": {
@@ -28,7 +28,7 @@
   "dependencies": {
     "aws-sdk": "2.7.22",
     "crypto-js": "^3.1.9-1",
-    "fibers": "^1.0.15",
+    "fibers": "^5.0.0",
     "lodash": "^4.17.2",
     "moment": "^2.17.1",
     "uuid": "^3.0.1"

@@ -13,6 +13,7 @@ Star my code in github or atmosphere if you like my code or shoot me a dollar or
 
 ## Installation
 
+For Node > 8 use version 2.x.x and for Node <= 8 use version 1.x.x 
 ``` sh
 $ npm i --save s3up
 ```
