@@ -118,10 +118,7 @@ You need to set permissions so that everyone can see what's in there.
 	<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
 		<CORSRule>
 			<AllowedOrigin>*</AllowedOrigin>
-			<AllowedMethod>PUT</AllowedMethod>
-			<AllowedMethod>POST</AllowedMethod>
 			<AllowedMethod>GET</AllowedMethod>
-			<AllowedMethod>HEAD</AllowedMethod>
 			<MaxAgeSeconds>3000</MaxAgeSeconds>
 			<AllowedHeader>*</AllowedHeader>
 		</CORSRule>

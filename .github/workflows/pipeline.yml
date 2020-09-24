@@ -1,0 +1,32 @@
+name: Sonic
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Use Node 10
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: Dependencies Cache
+      uses: actions/cache@v1
+      with:
+        path: '**/node_modules'
+        key: node-modules-${{hashFiles('**/package-lock.json')}}
+        restore-keys: |
+          node-modules-
+
+    - name: install
+      run: npm i
+
+    - name: test
+      run: npm run test
+      env:
+        CI: true
+

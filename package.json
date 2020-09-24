@@ -4,12 +4,9 @@
   "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
   "main": "client/index.js",
   "scripts": {
-    "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d ./",
-    "postpublish": "rm -rf jsFromCoffee && rm -rf client && rm -rf server",
-    "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
-    "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib",
-    "meteor-example": "cd examples/meteor && meteor",
-    "reinstall-examples": "npm pack && cd examples/meteor && rm -rf node_modules/s3up && meteor npm i && cd ../../ && npm run postpublish"
+    "pack:build": "pack build",
+    "pack:publish": "pack publish",
+    "test": "eslint ./src --quiet -c ./.eslintrc.js"
   },
   "keywords": [
     "s3",
@@ -19,11 +16,38 @@
   ],
   "author": "lepozepo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lepozepo/s3-uploader.git"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ],
+      [
+        "@pika/plugin-build-node"
+      ]
+    ]
+  },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-env": "^1.1.4",
-    "coffee-script": "^1.12.2",
-    "coffeelint": "^1.16.0"
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@pika/pack": "^0.5.0",
+    "@pika/plugin-build-node": "^0.9.2",
+    "@pika/plugin-build-web": "^0.9.2",
+    "@pika/plugin-standard-pkg": "^0.9.2",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.1.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.1",
+    "eslint-plugin-react-hooks": "^4.0.0"
   },
   "dependencies": {
     "aws-sdk": "2.7.22",
@@ -31,6 +55,6 @@
     "fibers": "^5.0.0",
     "lodash": "^4.17.2",
     "moment": "^2.17.1",
-    "uuid": "^3.0.1"
+    "uuid": "^3.4.0"
   }
 }
