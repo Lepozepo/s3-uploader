@@ -3,6 +3,7 @@ import series from 'promise.series';
 import uploadFile from './uploadFile';
 
 export default async function uploadFiles(files, props = {}) {
+  if (!(files instanceof FileList)) throw new Error('uploadFiles(files): files must be an instance of FileList');
   const {
     blockSize = 5,
     onProgress = noop,

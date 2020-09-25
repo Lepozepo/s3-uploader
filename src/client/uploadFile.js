@@ -25,7 +25,10 @@ export default async function uploadFile(_file, props = {}) {
   });
   form.append('file', file);
 
-  let state = {};
+  let state = {
+    url: `${signature.url}/${signature.fields.key}`,
+    key: signature.fields.key,
+  };
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -33,11 +36,10 @@ export default async function uploadFile(_file, props = {}) {
       'progress',
       (event) => {
         state = {
+          ...state,
           loaded: event.loaded,
           total: event.total,
           percent: Math.floor((event.loaded / event.total) * 100),
-          status: 'uploading',
-          fetching: true,
         };
         onProgress(state);
       },
@@ -51,21 +53,10 @@ export default async function uploadFile(_file, props = {}) {
           state = {
             ...state,
             percent: 100,
-            status: 'complete',
-            fetching: false,
           };
           onProgress(state);
-          resolve({
-            url: `${signature.url}/${signature.fields.key}`,
-            key: signature.fields.key,
-          });
+          resolve(state);
         } else {
-          state = {
-            ...state,
-            status: 'error',
-            fetching: false,
-          };
-          onProgress(state);
           reject();
         }
       },
