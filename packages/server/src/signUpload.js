@@ -1,14 +1,6 @@
-import S3 from 'aws-sdk/clients/s3';
-
-export default function signUpload(props, s3Config) {
+export default function signUpload(props, client) {
   if (!props?.key) throw new Error(`key is required at signUpload({ key: ${props?.key} })`);
   if (!props?.bucket) throw new Error(`bucket is required at signUpload({ bucket: ${props?.bucket} })`);
-
-  const client = new S3({
-    accessKeyId: s3Config.accessKeyId,
-    secretAccessKey: s3Config.secretAccessKey,
-    ...s3Config,
-  });
 
   return client.createPresignedPost({
     Bucket: props.bucket,
