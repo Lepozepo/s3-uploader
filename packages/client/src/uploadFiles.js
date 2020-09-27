@@ -15,10 +15,12 @@ export default async function uploadFiles(files, props = {}) {
 
   const uploadPlan = times(blocks).map((blockId) => ({
     blockId,
-    files: times(blockSize).map((fileIdx) => ({
-      id: fileIdx + (blockSize * fileIdx),
-      file: files.item(fileIdx + (blockSize * fileIdx)),
-    })),
+    files: Array.from(files)
+      .slice(blockId * blockSize, (blockId * blockSize) + blockSize)
+      .map((file, idx) => ({
+        id: idx + (blockId * blockSize),
+        file,
+      })),
   }));
 
   const state = {
@@ -38,8 +40,9 @@ export default async function uploadFiles(files, props = {}) {
     state.list[id] = { id };
   });
 
+  console.log(uploadPlan);
   await series(uploadPlan.map((block) => () => (
-    Promise.all(block.files.map((file) => uploadFile(
+    Promise.all(block.files.map((file) => console.log(file) || uploadFile(
       file.file,
       {
         ...fileProps,

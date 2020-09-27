@@ -57,10 +57,10 @@ import { uploadFiles } from 's3up-client';
 Template.example.events({
   'click .upload': function(event, instance) {
     uploadFiles(instance.$("input.file_bag")[0].files, {
-      signer: (file) => new Promise((resolve, reject) => Meteor.call("authorizeUpload", { key: `someDirectory/${file.name}` }), (err, res) => {
+      signer: (file) => new Promise((resolve, reject) => Meteor.call('authorizeUpload', (err, res) => {
         if (err) return reject(err);
         return resolve(res);
-      }),
+      })),
       onProgress: function(state) {
         console.log(state);
         console.log(state.percent);
@@ -75,6 +75,7 @@ Template.example.events({
 For all of this to work you need to create an aws account.
 
 ### 1. Create an S3 bucket in your preferred region.
+NOTE: Do not block all public access unless you are planning to only use signed requests to get objects.
 
 ### 2. Access Key Id and Secret Key
 
@@ -83,52 +84,42 @@ For all of this to work you need to create an aws account.
 3. Create a new access key under the Access Keys (Access Key ID and Secret Access Key) tab.
 4. Enter this information into your app as defined in "How to Use" "Step 1".
 
-### 3. Hosting
+### 3. Enable CORS
 
-1. Upload a blank `index.html` file (anywhere is ok, I put it in root).
-2. Select the bucket's properties by clicking on the bucket (from All Buckets) then the "Properties" button at the top right.
-3. Click **"Static Website Hosting"** tab.
-4. Click **Enable Website Hosting**.
-5. Fill the `Index Document` input with the path to your `index.html` without a trailing slash. E.g. `afolder/index.html`, `index.html`
-6. **Click "Save"**
-
-### 4. CORS
-
-You need to set permissions so that everyone can see what's in there.
+Setting this will allow your website to POST data to the bucket. If you want to be more cautious, set the `AllowedOrigin` and `AllowedHeader` to your domain.
 
 1. Select the bucket's properties and go to the "Permissions" tab.
 2. Click "Edit CORS Configuration" and paste this:
 
-  ``` xml
-  <?xml version="1.0" encoding="UTF-8"?>
-  <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-    <CORSRule>
-      <AllowedOrigin>*</AllowedOrigin>
-      <AllowedMethod>GET</AllowedMethod>
-      <MaxAgeSeconds>3000</MaxAgeSeconds>
-      <AllowedHeader>*</AllowedHeader>
-    </CORSRule>
-  </CORSConfiguration>
-  ```
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>HEAD</AllowedMethod>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
 
-3. Click "Edit bucket policy" and paste this (**Replace the bucket name with your own**):
+3. Click "Edit bucket policy" and paste this (**Replace the bucket name with your own**) to allow anyone to read content from the bucket (only do this if you have set "block public access" to off):
 
-  ``` javascript
-  {
-    "Version": "2008-10-17",
-    "Statement": [
-      {
-        "Sid": "AllowPublicRead",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "*"
-        },
-        "Action": "s3:GetObject",
-        "Resource": "arn:aws:s3:::YOURBUCKETNAMEHERE/*"
-      }
-    ]
-  }
-  ```
+``` javascript
+{
+  "Version": "2008-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::YOURBUCKETNAME/*"
+    }
+  ]
+}
+```
 
 4. **Click Save**
 

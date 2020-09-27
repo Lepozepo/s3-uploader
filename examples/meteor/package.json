@@ -2,11 +2,13 @@
   "name": "meteor",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor --settings settings.dev.json"
   },
   "dependencies": {
-    "babel-runtime": "6.18.0",
+    "@babel/runtime": "^7.11.2",
+    "babel-runtime": "^6.18.0",
     "meteor-node-stubs": "~0.2.0",
-    "s3up": "file:///Users/Air/Documents/Programming/custom_packages/s3-uploader/s3up-1.0.10.tgz"
+    "s3up-client": "file:../../packages/client/pkg",
+    "s3up-server": "file:../../packages/server/pkg"
   }
 }

@@ -1,2 +1,3 @@
 node_modules/
 .s3keys.txt
+settings.dev.json
