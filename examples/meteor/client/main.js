@@ -18,8 +18,7 @@ Template.info.events({
         return resolve(res);
       })),
       onProgress(state) {
-        console.log(state);
-        progress.set(state.precent);
+        progress.set(state.percent());
       },
     });
   },

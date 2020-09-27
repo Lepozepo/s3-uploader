@@ -40,9 +40,8 @@ export default async function uploadFiles(files, props = {}) {
     state.list[id] = { id };
   });
 
-  console.log(uploadPlan);
   await series(uploadPlan.map((block) => () => (
-    Promise.all(block.files.map((file) => console.log(file) || uploadFile(
+    Promise.all(block.files.map((file) => uploadFile(
       file.file,
       {
         ...fileProps,
