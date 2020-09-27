@@ -37,9 +37,9 @@ export default async function uploadFile(_file, props = {}) {
       (event) => {
         state = {
           ...state,
-          loaded: event.loaded,
-          total: event.total,
-          percent: Math.floor((event.loaded / event.total) * 100),
+          loaded: event.loaded || 0,
+          total: event.total || 0,
+          percent: Math.floor((event.loaded / event.total) * 100) || 0,
         };
         onProgress(state);
       },

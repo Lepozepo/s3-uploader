@@ -28,12 +28,16 @@ export default async function uploadFiles(files, props = {}) {
     toArray() {
       return Object.values(this.list);
     },
-    total: Object.values(files).reduce((acc, file) => acc + file.size, 0),
+    total() {
+      return this.toArray().reduce((acc, { total }) => acc + (total || 0), 0);
+    },
     loaded() {
-      return this.toArray().reduce((acc, { loaded }) => acc + loaded, 0);
+      return this.toArray().reduce((acc, { loaded }) => acc + (loaded || 0), 0);
     },
     percent() {
-      return Math.floor((this.loaded() / this.total) * 100);
+      // eslint-disable-next-line
+      const r = Math.ceil(this.toArray().reduce((acc, { percent }) => ((acc + (percent / numFiles)) || 0), 0));
+      return r > 100 ? 100 : r;
     },
   };
   times(numFiles).forEach((id) => {
