@@ -124,9 +124,25 @@ Setting this will allow your website to POST data to the bucket. If you want to 
 4. **Click Save**
 
 ## API Server
-`S3Up.signUpload`: For authorizing client side uploads
-`S3Up.download`: For downloading files in s3 to your server
-`S3Up.upload`: For uploading files stored in your server to s3
+`new S3Up(args)`: Class for handling data with your S3 Bucket. You may use other methods to authenticate the bucket as described [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property), this class takes in everything a common `S3` class takes and expands on it without extending it.
+  `args.bucket` (required): Target bucket for all subsequent S3Up commands.
+  `args.accessKeyId` (required unless authenticating with something else): IAM S3 User Access Key ID.
+  `args.secretAccessKey` (required unless authenticating with something else): IAM S3 Secret Access Key
+
+`S3Up.signUpload(args)`: For authorizing client side uploads [more docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createPresignedPost-property)
+  `args.key` (required): The location of the file in S3.
+  `args.expires` (optional): The number of seconds for which the presigned policy should be valid. (default: 3600)
+  `args.conditions` (optional): An array of conditions that must be met for the presigned policy to allow the upload. This can include required tags, the accepted range for content lengths, etc.
+  `args.fields` (optional): Fields to include in the form. All values passed in as fields will be signed as exact match conditions.
+
+`S3Up.download(args)`: For downloading files in s3 to your server
+  `args.to`: Location of file, does not check whether the directory exists, you'll need to take care of this yourself.
+  `args.from.Key`: Key (ex: 'directory/thing.txt') of the S3 file
+  `args.from.Range`: Portion of the file to get (generally not used) (ex: 'bytes=0-9').
+
+`S3Up.upload(args)`: For uploading files stored in your server to s3
+  `args.Body`: The file you're uploading (buffer, blob, or stream)
+  `args.Key`: The location of the file you're uploading
 
 ## API Client
 `uploadFile`: For uploading a single file
