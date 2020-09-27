@@ -18,9 +18,21 @@
       ]
     ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "s3",
+    "upload",
+    "multipart",
+    "meteor",
+    "react",
+    "graphql"
+  ],
+  "author": "lepozepo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lepozepo/s3-uploader.git"
+  },
+  "homepage": "https://github.com/lepozepo/s3-uploader",
   "devDependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",

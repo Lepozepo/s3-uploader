@@ -18,9 +18,21 @@
       ]
     ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "s3",
+    "upload",
+    "multipart",
+    "meteor",
+    "react",
+    "graphql"
+  ],
+  "author": "lepozepo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lepozepo/s3-uploader.git"
+  },
+  "homepage": "https://github.com/lepozepo/s3-uploader",
   "dependencies": {
     "aws-sdk": "^2.761.0"
   },
