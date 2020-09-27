@@ -136,15 +136,50 @@ Setting this will allow your website to POST data to the bucket. If you want to 
   `args.fields` (optional): Fields to include in the form. All values passed in as fields will be signed as exact match conditions.
 
 `S3Up.download(args)`: For downloading files in s3 to your server
-  `args.to`: Location of file, does not check whether the directory exists, you'll need to take care of this yourself.
-  `args.from.Key`: Key (ex: 'directory/thing.txt') of the S3 file
+  `args.to` (required): Location of file, does not check whether the directory exists, you'll need to take care of this yourself.
+  `args.from.Key` (required): Key (ex: 'directory/thing.txt') of the S3 file
   `args.from.Range`: Portion of the file to get (generally not used) (ex: 'bytes=0-9').
 
 `S3Up.upload(args)`: For uploading files stored in your server to s3
-  `args.Body`: The file you're uploading (buffer, blob, or stream)
-  `args.Key`: The location of the file you're uploading
+  `args.Body` (required): The file you're uploading (buffer, blob, or stream)
+  `args.Key` (required): The location of the file you're uploading
 
 ## API Client
-`uploadFile`: For uploading a single file
-`uploadFiles`: For uploading multiple files in batches (this makes sure the client doesn't run into any memory issues)
-`useSignedUpload` (REACT only): For uploading files and managing state easily
+`uploadFile(file, args)`: For uploading a single file
+  `file` (required): An instance of `File` as provided by HTML.input[type="file"]'s FileList
+  `args.signer` (required): A function or async function that will call the server's `S3Up.signUpload()` function and return its full response (`{ url, fields }`).
+  `args.onProgress(state)` (optional): A function for tracking upload progess
+    `state.url`: The full location of the file once the upload is complete
+    `state.key`: The key of the file in S3
+    `state.loaded`: How many bytes have loaded up
+    `state.total`: How many bytes will be loaded up
+    `state.percent`: How much progress as a percentage [0-100] the upload has completed
+  `args.isBase64` (optional): A boolean describing whether uploaded files need to be converted to a blob
+  `args.base64ContentType` (optional): The content type of the base64 files
+
+`uploadFiles(files, args)`: For uploading multiple files in batches (this makes sure the client doesn't run into any memory issues)
+  `files` (required): An instance of `FileList` as provided by HTML.input[type="file"]
+  `args.signer` (required): A function or async function that will call the server's `S3Up.signUpload()` function and return its full response (`{ url, fields }`).
+  `args.onProgress(state)` (optional): A function for tracking upload progess
+    `state.list`: An object of all files being uploaded
+      `state.list[n].url`: The full location of the file once the upload is complete
+      `state.list[n].key`: The key of the file in S3
+      `state.list[n].loaded`: How many bytes have loaded up
+      `state.list[n].total`: How many bytes will be loaded up
+      `state.list[n].percent`: How much progress as a percentage [0-100] the upload has completed
+    `state.toArray()`: A function that returns `state.list` as an array
+    `state.total()`: A function that calculates current known total bytes to upload
+    `state.loaded()`: A function that calculates current known total bytes uploaded
+    `state.percent()`: A function that calculates current known progress of all uploads
+  `args.isBase64` (optional): A boolean describing whether uploaded files need to be converted to a blob
+  `args.base64ContentType` (optional): The content type of the base64 files
+
+
+`const [upload, state] = useSignedUpload(args)` (REACT only): For uploading files and managing state easily
+  `upload(FileList)`: A function that runs the uploads as described by `uploadFiles`
+  `state`: The current state of uploads as described by `uploadFiles` but without requiring function calls
+  `args`: The upload functions definition
+    `args.signer` (required): A function or async function that will call the server's `S3Up.signUpload()` function and return its full response (`{ url, fields }`).
+    `args.isBase64` (optional): A boolean describing whether uploaded files need to be converted to a blob
+    `args.base64ContentType` (optional): The content type of the base64 files
+
