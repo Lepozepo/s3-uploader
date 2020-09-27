@@ -1,36 +1,22 @@
 {
   "name": "s3up",
-  "version": "2.0.0",
-  "description": "A simple function to upload files to Amazon S3. Refactored from my original Meteor S3 package.",
-  "main": "client/index.js",
+  "version": "3.0.0",
+  "description": "A simple set of functions to upload files to Amazon S3",
   "scripts": {
-    "prepublish": "node_modules/.bin/coffee --no-header --compile --output jsFromCoffee/ src/ && node_modules/.bin/babel jsFromCoffee -d ./",
-    "postpublish": "rm -rf jsFromCoffee && rm -rf client && rm -rf server",
-    "test": "node_modules/.bin/coffeelint -f coffeelint.json ./src",
-    "make-docs": "npm run prepublish && jsdoc lib -r -d docs && rm -rf lib",
-    "meteor-example": "cd examples/meteor && meteor",
-    "reinstall-examples": "npm pack && cd examples/meteor && rm -rf node_modules/s3up && meteor npm i && cd ../../ && npm run postpublish"
+    "test": "(cd ./packages/server && npm i && npm run test) & (cd ./packages/client && npm i && npm run test)"
   },
   "keywords": [
     "s3",
     "upload",
     "multipart",
-    "meteor"
+    "meteor",
+    "react",
+    "graphql"
   ],
   "author": "lepozepo",
   "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-env": "^1.1.4",
-    "coffee-script": "^1.12.2",
-    "coffeelint": "^1.16.0"
-  },
-  "dependencies": {
-    "aws-sdk": "2.7.22",
-    "crypto-js": "^3.1.9-1",
-    "fibers": "^5.0.0",
-    "lodash": "^4.17.2",
-    "moment": "^2.17.1",
-    "uuid": "^3.0.1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lepozepo/s3-uploader.git"
   }
 }
