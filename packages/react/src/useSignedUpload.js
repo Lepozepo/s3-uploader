@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import uploadFiles from './uploadFiles';
+export uploadFiles from 's3up-client/uploadFiles';
 
 export default function useSignedUpload(props = {}) {
   const {
@@ -37,12 +37,14 @@ export default function useSignedUpload(props = {}) {
         ...result,
         status: 'complete',
       });
+      return state;
     } catch (error) {
       setState({
         ...state,
         error,
         status: 'error',
       });
+      return state;
     }
   };
 

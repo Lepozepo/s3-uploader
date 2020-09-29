@@ -12,6 +12,8 @@ Star my code in github or atmosphere if you like my code or shoot me a dollar or
 $ npm i --save s3up-server
 <!-- On your client -->
 $ npm i --save s3up-client
+<!-- If you are using react, install s3up-react instead of s3up-client for additional functionality -->
+$ npm i --save s3up-react
 ```
 
 ## How to use
@@ -174,9 +176,11 @@ Setting this will allow your website to POST data to the bucket. If you want to 
   - `args.isBase64` (optional): A boolean describing whether uploaded files need to be converted to a blob
   - `args.base64ContentType` (optional): The content type of the base64 files
 
+## API React
+**Everything in API client is exposed as well as the following**
 
 `const [upload, state] = useSignedUpload(args)` (REACT only): For uploading files and managing state easily
-  - `upload(FileList)`: A function that runs the uploads as described by `uploadFiles`
+  - `upload(FileList)`: A function that runs the uploads as described by `uploadFiles`. Returns the resulting state after completion.
   - `state`: The current state of uploads as described by `uploadFiles` but without requiring function calls
   - `args`: The upload functions definition
     - `args.signer` (required): A function or async function that will call the server's `S3Up.signUpload()` function and return its full response (`{ url, fields }`).
