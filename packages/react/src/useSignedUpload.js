@@ -1,5 +1,5 @@
 import { useState } from 'react';
-export uploadFiles from 's3up-client/uploadFiles';
+import { uploadFiles } from 's3up-client';
 
 export default function useSignedUpload(props = {}) {
   const {
@@ -19,7 +19,7 @@ export default function useSignedUpload(props = {}) {
 
   const upload = async (files) => {
     try {
-      if (state.status === 'uploading') return;
+      if (state.status === 'uploading') return state;
 
       const result = await uploadFiles(files, {
         signer,
