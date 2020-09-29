@@ -48,7 +48,7 @@
     "react": "^16.13.1"
   },
   "dependencies": {
-    "s3up-client": "1.0.1"
+    "s3up-client": "1.0.2"
   },
   "peerDependencies": {
     "react": "^16.8.0"
