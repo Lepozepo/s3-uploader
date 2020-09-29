@@ -21,7 +21,7 @@ export default function useSignedUpload(props = {}) {
     try {
       if (state.status === 'uploading') return state;
 
-      const result = await uploadFiles(files, {
+      const r = await uploadFiles(files, {
         signer,
         isBase64,
         base64ContentType,
@@ -34,13 +34,19 @@ export default function useSignedUpload(props = {}) {
         }),
       });
       setState({
-        ...result,
+        ...r,
+        toArray: r.toArray(),
+        loaded: r.loaded(),
+        percent: r.percent(),
         status: 'complete',
       });
       return state;
     } catch (error) {
       setState({
         ...state,
+        toArray: state.toArray(),
+        loaded: state.loaded(),
+        percent: state.percent(),
         error,
         status: 'error',
       });
