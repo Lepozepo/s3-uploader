@@ -44,9 +44,6 @@ export default function useSignedUpload(props = {}) {
     } catch (error) {
       setState({
         ...state,
-        toArray: state.toArray(),
-        loaded: state.loaded(),
-        percent: state.percent(),
         error,
         status: 'error',
       });
