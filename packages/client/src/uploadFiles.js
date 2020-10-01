@@ -2,8 +2,14 @@ import { noop, times } from 'lodash';
 import series from 'promise.series';
 import uploadFile from './uploadFile';
 
-export default async function uploadFiles(files, props = {}) {
-  if (!(files instanceof FileList)) throw new Error('uploadFiles(files): files must be an instance of FileList');
+export default async function uploadFiles(_files, props = {}) {
+  let files = _files;
+  if (_files instanceof FileList) {
+    files = Array.from(_files);
+  }
+
+  if (!files) throw new Error('uploadFiles(files): files argument is required!');
+
   const {
     blockSize = 5,
     onProgress = noop,
@@ -15,7 +21,7 @@ export default async function uploadFiles(files, props = {}) {
 
   const uploadPlan = times(blocks).map((blockId) => ({
     blockId,
-    files: Array.from(files)
+    files: files
       .slice(blockId * blockSize, (blockId * blockSize) + blockSize)
       .map((file, idx) => ({
         id: idx + (blockId * blockSize),
