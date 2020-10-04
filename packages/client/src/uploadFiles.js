@@ -23,10 +23,21 @@ export default async function uploadFiles(_files, props = {}) {
     blockId,
     files: files
       .slice(blockId * blockSize, (blockId * blockSize) + blockSize)
-      .map((file, idx) => ({
-        id: idx + (blockId * blockSize),
-        file,
-      })),
+      .map((file, idx) => {
+        const __id = idx + (blockId * blockSize);
+
+        if (file instanceof File) {
+          return {
+            __id,
+            file,
+          };
+        }
+        return {
+          __id,
+          file: file.file,
+          passthroughProps: file,
+        };
+      }),
   }));
 
   const state = {
@@ -46,9 +57,6 @@ export default async function uploadFiles(_files, props = {}) {
       return r > 100 ? 100 : r;
     },
   };
-  times(numFiles).forEach((id) => {
-    state.list[id] = { id };
-  });
 
   await series(uploadPlan.map((block) => () => (
     Promise.all(block.files.map((file) => uploadFile(
@@ -56,7 +64,12 @@ export default async function uploadFiles(_files, props = {}) {
       {
         ...fileProps,
         onProgress(progressState) {
-          state.list[file.id] = progressState;
+          state.list[file.__id] = {
+            file,
+            ...file.passthroughProps,
+            ...state.list[file.__id],
+            ...progressState,
+          };
           onProgress(state);
         },
       },
