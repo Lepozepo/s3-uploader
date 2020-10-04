@@ -1,6 +1,6 @@
 {
   "name": "s3up-react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "S3Up functions for react",
   "scripts": {
     "pack:build": "pack build",
