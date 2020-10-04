@@ -160,7 +160,7 @@ Setting this will allow your website to POST data to the bucket. If you want to 
   - `args.base64ContentType` (optional): The content type of the base64 files
 
 `uploadFiles(files, args)`: For uploading multiple files in batches (this makes sure the client doesn't run into any memory issues)
-  - `files` (required): An instance of `FileList` as provided by HTML.input[type="file"]
+  - `files` (required): An instance of `FileList` as provided by HTML.input[type="file"], an array of `File`s or an array of objects with a `file` key that contains an instance of `File`
   - `args.signer` (required): A function or async function that will call the server's `S3Up.signUpload()` function and return its full response (`{ url, fields }`).
   - `args.onProgress(state)` (optional): A function for tracking upload progess
     - `state.list`: An object of all files being uploaded
@@ -169,6 +169,7 @@ Setting this will allow your website to POST data to the bucket. If you want to 
       - `state.list[n].loaded`: How many bytes have loaded up
       - `state.list[n].total`: How many bytes will be loaded up
       - `state.list[n].percent`: How much progress as a percentage [0-100] the upload has completed
+      - `state.list[n]...`: If you pass an array of objects, the remaining properties that do not collide with any of the previous keys will be passed through
     - `state.toArray()`: A function that returns `state.list` as an array
     - `state.total()`: A function that calculates current known total bytes to upload
     - `state.loaded()`: A function that calculates current known total bytes uploaded
