@@ -1,8 +1,8 @@
-import noop from 'lodash/noop';
-import b64ToBlob from './b64ToBlob';
+import noop from "lodash/noop";
+import b64ToBlob from "./b64ToBlob";
 
 export default async function uploadFile(_file, props = {}) {
-  if (!_file) throw new Error('file is required!');
+  if (!_file) throw new Error("file is required!");
 
   const {
     signer,
@@ -12,8 +12,17 @@ export default async function uploadFile(_file, props = {}) {
   } = props;
 
   const signature = await signer(_file);
-  if (!signature.fields || !signature.url) throw new Error('The signature did not return fields nor a url');
-
+  if (!signature.fields || !signature.url)
+    throw new Error("The signature did not return fields nor a url");
+  signature.fields = {
+    key: signature.fields.key,
+    bucket: signature.fields.bucket,
+    Policy: signature.fields.Policy,
+    "X-Amz-Algorithm": signature.fields.xAmzAlgorithm,
+    "X-Amz-Credential": signature.fields.xAmzCredential,
+    "X-Amz-Date": signature.fields.xAmzDate,
+    "X-Amz-Signature": signature.fields.xAmzSignature,
+  };
   let file = _file;
   if (isBase64) {
     file = b64ToBlob(_file, base64ContentType);
@@ -23,7 +32,7 @@ export default async function uploadFile(_file, props = {}) {
   Object.entries(signature.fields).forEach(([k, v]) => {
     form.append(k, v);
   });
-  form.append('file', file);
+  form.append("file", file);
 
   let state = {
     url: `${signature.url}/${signature.fields.key}`,
@@ -33,7 +42,7 @@ export default async function uploadFile(_file, props = {}) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.upload.addEventListener(
-      'progress',
+      "progress",
       (event) => {
         state = {
           ...state,
@@ -43,26 +52,23 @@ export default async function uploadFile(_file, props = {}) {
         };
         onProgress(state);
       },
-      false,
+      false
     );
 
-    xhr.addEventListener(
-      'load',
-      () => {
-        if (xhr.status < 400) {
-          state = {
-            ...state,
-            percent: 100,
-          };
-          onProgress(state);
-          resolve(state);
-        } else {
-          reject();
-        }
-      },
-    );
+    xhr.addEventListener("load", () => {
+      if (xhr.status < 400) {
+        state = {
+          ...state,
+          percent: 100,
+        };
+        onProgress(state);
+        resolve(state);
+      } else {
+        reject();
+      }
+    });
 
-    xhr.open('POST', signature.url, true);
+    xhr.open("POST", signature.url, true);
     xhr.send(form);
   });
 }
