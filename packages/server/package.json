@@ -1,5 +1,5 @@
 {
-  "name": "s3up-server",
+  "name": "s3up-server-oro",
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
@@ -40,7 +40,7 @@
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
-    "@pika/pack": "^0.5.0",
+    "@pika/pack": "^0.3.7",
     "@pika/plugin-build-node": "^0.9.2",
     "@pika/plugin-standard-pkg": "^0.9.2",
     "babel-eslint": "^10.1.0",

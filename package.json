@@ -1,6 +1,6 @@
 {
-  "name": "s3up",
-  "version": "3.0.0",
+  "name": "s3up-lepo",
+  "version": "1.0.0",
   "description": "A simple set of functions to upload files to Amazon S3",
   "scripts": {
     "test": "(cd ./packages/server && npm i && npm run test) & (cd ./packages/client && npm i && npm run test)"
