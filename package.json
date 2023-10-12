@@ -1,6 +1,6 @@
 {
-  "name": "s3up-lepo",
-  "version": "1.0.0",
+  "name": "s3up-orozcorp",
+  "version": "1.1.1",
   "description": "A simple set of functions to upload files to Amazon S3",
   "scripts": {
     "test": "(cd ./packages/server && npm i && npm run test) & (cd ./packages/client && npm i && npm run test)"
@@ -13,10 +13,10 @@
     "react",
     "graphql"
   ],
-  "author": "lepozepo",
+  "author": "orozcorp",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lepozepo/s3-uploader.git"
+    "url": "https://github.com/orozcorp/s3-uploader.git"
   }
 }

@@ -1,3 +1,6 @@
+/* eslint-disable curly */
+/* eslint-disable nonblock-statement-body-position */
+/* eslint-disable quotes */
 import noop from "lodash/noop";
 import b64ToBlob from "./b64ToBlob";
 
