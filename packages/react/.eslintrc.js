@@ -1,10 +1,11 @@
 module.exports = {
-  extends: ['airbnb'],
+  extends: ["airbnb"],
   rules: {
-    'no-underscore-dangle': 0,
-    'import/no-unresolved': 0,
+    "no-underscore-dangle": 0,
+    "import/no-unresolved": 0,
+    quotes: 0,
   },
-  parser: 'babel-eslint',
+  parser: "babel-eslint",
   env: {
     browser: true,
   },
