@@ -1,4 +1,4 @@
-import S3 from 'aws-sdk/clients/s3';
+import { S3Client } from '@aws-sdk/client-s3';
 import signUpload from './signUpload';
 import download from './download';
 import upload from './upload';
@@ -8,11 +8,12 @@ export default class S3Up {
     if (!props.bucket) throw new Error('bucket is required!');
 
     this.props = props;
-    this.client = new S3({
+    this.client = new S3Client({
       ...props,
-      params: {
-        ...props?.params,
-        Bucket: props.bucket,
+      credentials: {
+        accessKeyId: props.accessKeyId,
+        secretAccessKey: props.secretAccessKey,
+        ...props?.credentials,
       },
     });
   }
