@@ -4,7 +4,9 @@
   "description": "S3Up functions for react",
   "main": "dist/index.js",
   "scripts": {
+    "prebuild": "cd ../client && npm run build",
     "build": "swc src -d dist --config-file .swcrc",
+    "pretest": "cd ../client && npm run build",
     "test": "eslint ./src --quiet -c ./.eslintrc.js"
   },
   "keywords": [
