@@ -64,6 +64,6 @@ module.exports = {
     ecmaVersion: 2020,
   },
   env: {
-    node: true,
+    browser: true,
   },
 };

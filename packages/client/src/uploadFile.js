@@ -4,12 +4,7 @@ import b64ToBlob from './b64ToBlob';
 export default async function uploadFile(_file, props = {}) {
   if (!_file) throw new Error('file is required!');
 
-  const {
-    signer,
-    onProgress = noop,
-    isBase64 = false,
-    base64ContentType,
-  } = props;
+  const { signer, onProgress = noop, isBase64 = false, base64ContentType } = props;
 
   const signature = await signer(_file);
   if (!signature.fields || !signature.url) throw new Error('The signature did not return fields nor a url');
@@ -46,21 +41,18 @@ export default async function uploadFile(_file, props = {}) {
       false,
     );
 
-    xhr.addEventListener(
-      'load',
-      () => {
-        if (xhr.status < 400) {
-          state = {
-            ...state,
-            percent: 100,
-          };
-          onProgress(state);
-          resolve(state);
-        } else {
-          reject();
-        }
-      },
-    );
+    xhr.addEventListener('load', () => {
+      if (xhr.status < 400) {
+        state = {
+          ...state,
+          percent: 100,
+        };
+        onProgress(state);
+        resolve(state);
+      } else {
+        reject();
+      }
+    });
 
     xhr.open('POST', signature.url, true);
     xhr.send(form);
