@@ -7,7 +7,8 @@
     "prebuild": "cd ../client && npm run build",
     "build": "swc src -d dist --config-file .swcrc",
     "pretest": "cd ../client && npm run build",
-    "test": "eslint ./src --quiet -c ./.eslintrc.js"
+    "test": "eslint ./src --quiet -c ./.eslintrc.js",
+    "prepublishOnly": "cd ../client && npm run build && cd ../react && npm run build"
   },
   "keywords": [
     "s3",
