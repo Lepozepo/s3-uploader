@@ -1,6 +1,6 @@
 import { S3Client } from '@aws-sdk/client-s3';
-import signUpload from './signUpload';
 import download from './download';
+import signUpload from './signUpload';
 import upload from './upload';
 
 export default class S3Up {
@@ -19,26 +19,35 @@ export default class S3Up {
   }
 
   signUpload(props) {
-    return signUpload({
-      ...props,
-      bucket: this.props.bucket,
-    }, this.client);
+    return signUpload(
+      {
+        ...props,
+        bucket: this.props.bucket,
+      },
+      this.client,
+    );
   }
 
   download(props) {
-    return download({
-      ...props,
-      from: {
-        ...props.from,
-        bucket: this.props.bucket,
+    return download(
+      {
+        ...props,
+        from: {
+          ...props.from,
+          bucket: this.props.bucket,
+        },
       },
-    }, this.client);
+      this.client,
+    );
   }
 
   upload(props) {
-    return upload({
-      ...props,
-      bucket: this.props.bucket,
-    }, this.client);
+    return upload(
+      {
+        ...props,
+        bucket: this.props.bucket,
+      },
+      this.client,
+    );
   }
 }
