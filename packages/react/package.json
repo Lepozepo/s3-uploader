@@ -32,10 +32,10 @@
     "prettier": "^3.0.3",
     "react": "^16.13.1"
   },
-  "dependencies": {
-    "s3up-client": "../client"
-  },
   "peerDependencies": {
     "react": ">16"
+  },
+  "dependencies": {
+    "s3up-client": "file:../client"
   }
 }
