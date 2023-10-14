@@ -30,7 +30,7 @@ export default class S3Up {
       ...props,
       from: {
         ...props.from,
-        Bucket: this.props.bucket,
+        bucket: this.props.bucket,
       },
     }, this.client);
   }
@@ -38,7 +38,7 @@ export default class S3Up {
   upload(props) {
     return upload({
       ...props,
-      Bucket: this.props.bucket,
+      bucket: this.props.bucket,
     }, this.client);
   }
 }
