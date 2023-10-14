@@ -2,6 +2,7 @@
   "name": "s3up-react",
   "version": "2.0.0",
   "description": "S3Up functions for react",
+  "main": "dist/index.js",
   "scripts": {
     "build": "swc src -d dist --config-file .swcrc",
     "test": "eslint ./src --quiet -c ./.eslintrc.js"
