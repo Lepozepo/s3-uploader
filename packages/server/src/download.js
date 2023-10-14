@@ -1,12 +1,18 @@
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import fs from 'fs';
 
-export default function download(props, client) {
+export default async function download(props, client) {
   if (!props?.to) throw new Error('download({ to: \'<path>\' }) is required');
-  if (!props?.from) throw new Error('download({ from: {} }) is required');
+  if (!props?.from?.key) throw new Error('download({ from: { key } }) is required');
+
+  const rstream = await client.send(new GetObjectCommand({
+    ...props.from,
+    Key: props.from.key,
+  }));
+
   return new Promise((resolve) => {
     const wstream = fs.createWriteStream(props.to);
-    const rstream = client.getObject(props.from).createReadStream();
-    rstream.pipe(wstream);
+    rstream.Body.pipe(wstream);
     wstream.on('finish', () => {
       resolve();
     });
