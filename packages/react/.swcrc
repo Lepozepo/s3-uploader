@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "module": {
+    "type": "commonjs"
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true,
+      "dynamicImport": true,
+      "privateMethod": false,
+      "functionBind": false,
+      "exportDefaultFrom": true,
+      "exportNamespaceFrom": false,
+      "decorators": false,
+      "decoratorsBeforeExport": false,
+      "topLevelAwait": false,
+      "importMeta": false
+    },
+    "target": "es2015",
+    "loose": false,
+    "externalHelpers": true,
+    "keepClassNames": false,
+    "transform": {
+      "react": {
+        "runtime": "automatic"
+      }
+    },
+    "paths": {
+      "~/*": ["./*"]
+    },
+    "baseUrl": "src"
+  },
+  "minify": false
+}

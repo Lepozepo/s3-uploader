@@ -139,12 +139,12 @@ Setting this will allow your website to POST data to the bucket. If you want to 
 
 `S3Up.download(args)`: For downloading files in s3 to your server
   - `args.to` (required): Location of file, does not check whether the directory exists, you'll need to take care of this yourself.
-  - `args.from.Key` (required): Key (ex: 'directory/thing.txt') of the S3 file
-  - `args.from.Range`: Portion of the file to get (generally not used) (ex: 'bytes=0-9').
+  - `args.from.key` (required): Key (ex: 'directory/thing.txt') of the S3 file
 
 `S3Up.upload(args)`: For uploading files stored in your server to s3
-  - `args.Body` (required): The file you're uploading (buffer, blob, or stream)
-  - `args.Key` (required): The location of the file you're uploading
+  - `args.body` (required): The file you're uploading (buffer, blob, or stream)
+  - `args.key` (required): The location of the file you're uploading
+  - `args.onProgress`: A function called when upload progress is made
 
 ## API Client
 `uploadFile(file, args)`: For uploading a single file

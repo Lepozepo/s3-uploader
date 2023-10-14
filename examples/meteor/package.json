@@ -8,7 +8,7 @@
     "@babel/runtime": "^7.11.2",
     "babel-runtime": "^6.18.0",
     "meteor-node-stubs": "~0.2.0",
-    "s3up-client": "file:../../packages/client/pkg",
-    "s3up-server": "file:../../packages/server/pkg"
+    "s3up-client": "file:../../packages/client",
+    "s3up-server": "file:../../packages/server"
   }
 }

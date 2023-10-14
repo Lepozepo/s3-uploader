@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { uploadFiles } from 's3up-react';
+import { uploadFiles } from 's3up-client';
 
 export default function useSignedUpload(props = {}) {
-  const {
-    signer,
-    isBase64 = false,
-    base64ContentType,
-  } = props;
+  const { signer, isBase64 = false, base64ContentType } = props;
 
   const [state, setState] = useState({
     list: {},
@@ -25,14 +21,15 @@ export default function useSignedUpload(props = {}) {
         signer,
         isBase64,
         base64ContentType,
-        onProgress: (s) => setState({
-          ...s,
-          asArray: s.toArray(),
-          loaded: s.loaded(),
-          total: s.total(),
-          percent: s.percent(),
-          status: 'uploading',
-        }),
+        onProgress: (s) =>
+          setState({
+            ...s,
+            asArray: s.toArray(),
+            loaded: s.loaded(),
+            total: s.total(),
+            percent: s.percent(),
+            status: 'uploading',
+          }),
       });
 
       const finalState = {

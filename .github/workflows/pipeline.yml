@@ -1,21 +1,24 @@
-name: Sonic
+name: sonic
 
 on: [push]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [client, react, server]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
 
-    - name: Use Node 10
-      uses: actions/setup-node@v1
+    - name: node 18
+      uses: actions/setup-node@v3
       with:
-        node-version: '10.x'
+        node-version: 18
 
-    - name: Dependencies Cache
-      uses: actions/cache@v1
+    - name: dependencies cache
+      uses: actions/cache@v3
       with:
         path: '**/node_modules'
         key: node-modules-${{hashFiles('**/package-lock.json')}}
@@ -23,9 +26,11 @@ jobs:
           node-modules-
 
     - name: install
+      working-directory: './packages/${{matrix.service}}'
       run: npm i
 
     - name: test
+      working-directory: './packages/${{matrix.service}}'
       run: npm run test
       env:
         CI: true
