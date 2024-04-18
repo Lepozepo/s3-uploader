@@ -7,6 +7,7 @@ export default async function download(props, client) {
 
   const rstream = await client.send(
     new GetObjectCommand({
+      Bucket: props.from.bucket,
       ...props.from,
       Key: props.from.key,
     }),
