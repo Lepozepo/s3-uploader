@@ -1,6 +1,6 @@
 {
   "name": "s3up-server",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Easy AWS S3 Server Side Actions",
   "main": "dist/index.js",
   "scripts": {
